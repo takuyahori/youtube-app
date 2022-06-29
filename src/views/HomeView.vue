@@ -30,4 +30,10 @@ img {
   text-shadow: 5px 3px 4px rgb(35, 9, 115);
 }
 
+@media screen and (max-width: 768px) {
+  .homeTitle {
+    width: 300px;
+  }
+}
+
 </style>
