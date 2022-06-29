@@ -1,11 +1,11 @@
 <template>
 <div>
-    <div><font size="6" color="#c71585">YouTube Search list (Vue.js CLI)</font></div>
-    <br>
-    <input size="40" placeholder="検索キーワードを入力">
-    <button>検索</button>
-    <table cellspacing="0" cellpadding="5">
-        <tr>
+    <div class="searchSpace">
+        <input size="40" v-model="keyword" placeholder="検索キーワードを入力">
+        <button @click="search_video">Search</button>
+    </div>
+    <table cellspacing="0" cellpadding="5" v-show="results">
+        <tr class="tableHead">
             <th width="50">
                 <font>No</font>
             </th>
@@ -17,23 +17,23 @@
             </th>
         </tr>
 
-        <tr>
+        <tr class="tableContents" v-for="(movie, index) in results" v-bind:key="movie.id.videoId">
             <!-- No -->
-            <td valign="top" width="50"></td>
+            <td valign="top" width="5%">{{ index + 1 }}</td>
             <!-- Video -->
-            <td valign="top" width="300">
-                <a href="'https://www.youtube.com/watch?v=' + movie.id.videoId">
-                    <img width="300" height="200" src="movie.snippet.thumbnails.medium.url">
+            <td valign="top" width="55%">
+                <a v-bind:href="'https://www.youtube.com/watch?v=' + movie.id.videoId">
+                    <img v-bind:src="movie.snippet.thumbnails.medium.url">
                 </a>
             </td>
             <!-- title description -->
-            <td align="left" valign="top" width="700">
-                <font size="5" color="#c71585"><b>{{ movie.snippet.title }}</b></font>
+            <td align="left" valign="top" width="40%">
+                <font size="5" color="#8373f5"><b>{{ movie.snippet.title }}</b></font>
                 <br>
                 {{ movie.snippet.description }}
             </td>
         </tr>
-    </table>
+    </table>    
 </div>
 </template>
 
@@ -45,7 +45,7 @@ export default {
     data: function() {
         return {
             results: null,
-            keyword: "marvel",
+            keyword: "マーベル",
             order: "viewCount",
             params: {
                 q: "",
@@ -77,20 +77,68 @@ export default {
 
 <style>
 
+.searchSpace {
+    background-color: #051474;
+    padding: 50px;
+}
+
+input {
+    border: 1px solid #999;
+    padding: 3px 10px;
+    border-radius: 3px;
+    height: 2.2em;
+    overflow: hidden;
+}
+
+button {
+    cursor: pointer;
+    font-size: 1.2em;
+    border: none;
+    background: #8373f5;
+    border-radius: 3px;
+    color: #fff;
+    outline : none;
+    width: 4em;
+    height: 1.9em;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
 table {
+    width: 100%;
     border-collapse: collapse;
-    border: solid 2px #c71585;
+    border: solid 2px #8373f5;
 }
 
 table th {
     color: #fff0f5;
-    background: #ff69b4;
-    border: dashed 1px #c71585;
+    background: rgb(35, 9, 115);
+    border: dashed 1px #8373f5;
 }
 
 table td {
     background: #fff0f5;
-    border: dashed 1px #c71585    
+    border: dashed 1px #8373f5;
+}
+
+@media screen and (max-width: 768px) {
+   input {
+    width: 70%;
+   }
+
+   button {
+    width: 30%;
+    margin-top: 20px;
+   }
+
+    .tableHead th:nth-child(3) {
+        display: none;
+    }
+
+    .tableContents td:nth-child(3) {
+        display: none;
+    }
 }
 
 </style>
